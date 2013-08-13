@@ -26,7 +26,31 @@ function AverageAndAccumulate()
     	}
 
 	foreach ($Count as $key => $number) 
-		{
+	{
+		if (!isset($a_total[$key])) {
+			$a_total[$key] = 0;
+		}
+		if (!isset($a_icmp[$key])) {
+			$a_icmp[$key] = 0;
+		}
+		if (!isset($a_udp[$key])) {
+			$a_udp[$key] = 0;
+		}
+		if (!isset($a_tcp[$key])) {
+			$a_tcp[$key] = 0;
+		}
+		if (!isset($a_ftp[$key])) {
+			$a_ftp[$key] = 0;
+		}
+		if (!isset($a_http[$key])) {
+			$a_http[$key] = 0;
+		}
+		if (!isset($a_p2p[$key])) {
+			$a_p2p[$key] = 0;
+		}
+			
+			
+			
 		$a_total[$key] += $total[$key];
 		$a_icmp[$key] += $icmp[$key];
 		$a_udp[$key] += $udp[$key];
@@ -120,6 +144,9 @@ $result = pg_query($sql);
 // datapoint for each IP address to provide smoothing and then toss the smoothed value into the accumulator
 // to provide accurate total traffic rate.
 
+$last_ip = "";
+$SentPeak = 0;
+$TotalSent = 0;
 while ($row = pg_fetch_array($result))
 	{
 	if ($row['ip'] != $last_ip)
@@ -132,8 +159,34 @@ while ($row = pg_fetch_array($result))
 	$xint = (int) $x;
 
 	//echo "xint: ".$xint."<br>";
+	if (!isset($Count[$xint])) {
+		$Count[$xint] = 0;
+	}
 	$Count[$xint]++;
-                                                                                                                             
+
+	if (!isset($total[$xint])) {
+		$total[$xint] = 0;
+	}
+	if (!isset($icmp[$xint])) {
+		$icmp[$xint] = 0;
+	}
+	if (!isset($udp[$xint])) {
+		$udp[$xint] = 0;
+	}
+	if (!isset($tcp[$xint])) {
+		$tcp[$xint] = 0;
+	}		
+	if (!isset($ftp[$xint])) {
+		$ftp[$xint] = 0;
+	}
+	if (!isset($http[$xint])) {
+		$http[$xint] = 0;
+	}
+	if (!isset($p2p[$xint])) {
+		$p2p[$xint] = 0;
+	}		
+	
+	
 	if ($row['total']/$row['sample_duration'] > $SentPeak)
 		$SentPeak = $row['total']/$row['sample_duration'];
 	$TotalSent += $row['total'];

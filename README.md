@@ -37,39 +37,39 @@ My ISP has now switched over to the database driven version of bandwidthd entire
 have half a dozen sensors sprinkled around the country, writing millions of data points a 
 day on our customers into the system.
 
-INSTRUCTIONS
+### INSTRUCTIONS
 
 As a prerequisite for these instructions, you must have Postgresql installed and working, 
 as well as a web server that supports php.
 
-Database Setup:
+#### Database Setup:
 1. Create a database for Bandwidthd.  You will need to create users that can access the 
 database remotely if you want remote sensors.
 
 2. Bandwidthd's schema is in "schema.postgresql".  "psql mydb username < schema.postgresql" 
 should load it and create the 2 tables and 4 indexes.Thi
 
-Bandwidthd Setup:
+#### Bandwidthd Setup:
 1. Add the following lines to your bandwidthd.conf file:
 
-# Standard postgres connect string, just like php, see postgres docs for
-# details
-pgsql_connect_string "user = someuser dbname = mydb host = databaseserver.com"
-# Arbitrary sensor name, I recommend the sensors fully qualified domain
-# name
-sensor_id "sensor1.mycompany.com"
-# Tells Bandwidthd to keep no data and preform no graphing locally
-graph false
-# If this is set to true Bandwidthd will try to recover the daily log 
-# into the database.  If you set this true on purpose only do it once.
-# Bandwidthd does not track the fact that it has already transferred 
-# certain records into the database.
-recover_cdf false
+	# Standard postgres connect string, just like php, see postgres docs for
+	# details
+	pgsql_connect_string "user = someuser dbname = mydb host = databaseserver.com"
+	# Arbitrary sensor name, I recommend the sensors fully qualified domain
+	# name
+	sensor_id "sensor1.mycompany.com"
+	# Tells Bandwidthd to keep no data and preform no graphing locally
+	graph false
+	# If this is set to true Bandwidthd will try to recover the daily log 
+	# into the database.  If you set this true on purpose only do it once.
+	# Bandwidthd does not track the fact that it has already transferred 
+	# certain records into the database.
+	recover_cdf false
 
 4. Simply start bandwidthd, and after a few minutes data should start appearing in 
 your database.  If not, check syslog for error messages.
 
-Web Server Setup:
+#### Web Server Setup:
 1. Copy the contents of this repository into your web tree some where.
 2. Edit config.conf to set your db connect string
 
@@ -84,6 +84,7 @@ data points in your database in order to reduce the amount of data that needs to
 be slogged through in order to generate yearly, monthly, and weekly graphs.
 
 Example:
+
 bd_pgsql_purge.sh | psql bandwidthd postgres
 
 Will connect to the bandwidthd database on local host as the user postgres and summarize 

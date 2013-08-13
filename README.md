@@ -52,39 +52,20 @@ should load it and create the 2 tables and 4 indexes.Thi
 ### Bandwidthd Setup:
 1. Add the following lines to your bandwidthd.conf file:
 
+        # Standard postgres connect string, just like php, see postgres docs for details
+        pgsql_connect_string "user = someuser dbname = mydb password = secret host = databaseserver.com"
+        # Arbitrary sensor name, I recommend the sensors fully qualified domain name
+        sensor_id "sensor1.mycompany.com"
+        # Tells Bandwidthd to keep no data and preform no graphing locally
+        graph false
+        # If this is set to true Bandwidthd will try to recover the daily log 
+        # into the database.  If you set this true on purpose only do it once.
+        # Bandwidthd does not track the fact that it has already transferred 
+        # certain records into the database.
+        recover_cdf false
 
-
-2.   # Standard postgres connect string, just like php, see postgres docs for
-     # details
-     pgsql_connect_string "user = someuser dbname = mydb host = databaseserver.com"
-     # Arbitrary sensor name, I recommend the sensors fully qualified domain
-     # name
-     sensor_id "sensor1.mycompany.com"
-     # Tells Bandwidthd to keep no data and preform no graphing locally
-     graph false
-     # If this is set to true Bandwidthd will try to recover the daily log 
-     # into the database.  If you set this true on purpose only do it once.
-     # Bandwidthd does not track the fact that it has already transferred 
-     # certain records into the database.
-     recover_cdf false
-2. 
-2. qeqwe
-3. 
-
-2. 
-2. #
-3. Simply start bandwidthd, and after a few minutes data should start appearing in 
+2. Simply start bandwidthd, and after a few minutes data should start appearing in 
 your database.  If not, check syslog for error messages.
-
-
-dasdasdasdasd
-asdasdasdas
-
-
-
-
-
-
 
 
 ### Web Server Setup:

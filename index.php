@@ -3,13 +3,9 @@
 <center>
 <img src=logo.gif>
 <?
+trim_get ();
+
 // Get variables from url and set defaults
-
-//trim all inputs
-foreach ($_GET as $key => $value) {
-	$_GET[$key] = trim($_GET[$key]);
-}
-
 if (isset($_GET['sensor_id']) && $_GET['sensor_id'] != "none")
     $sensor_id = filter_var($_GET['sensor_id'], FILTER_SANITIZE_NUMBER_INT);
 
@@ -28,14 +24,7 @@ else
 
 if (isset($_GET['subnet']) && $_GET['subnet'] != "none")
 {
-	if (preg_match("/(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\/[0-9]{1,2}\b/", $_GET['subnet'],$subnet))
-	{
-		$subnet =$subnet[0];
-	}
-	else 
-	{
-		$subnet = "0.0.0.0/0";
-	}
+	$subnet = sanitize_ip ($_GET['subnet']);
 }
 
 
@@ -193,16 +182,16 @@ if ($subnet == "0.0.0.0/0")
 	$total_table = "bd_tx_total_log";
 else
 	$total_table = "bd_tx_log";
-echo "<a name=Total><h3><a href=details.php?sensor_name=$sensor_name&ip=$subnet>";
+echo "<a name=Total><h3><a href=details.php?sensor_id=$sensor_id&ip=$subnet>";
 echo "Total - Total of $subnet</h3>";
 echo "</a>";
-echo "Send:<br><img src=graph.php?ip=$subnet&interval=$interval&sensor_name=".$sensor_name."&table=$total_table><br>";
+echo "Send:<br><img src=graph.php?ip=$subnet&interval=$interval&sensor_id=".$sensor_id."&table=$total_table><br>";
 echo "<img src=legend.gif><br>\n";
 if ($subnet == "0.0.0.0/0")
 	$total_table = "bd_rx_total_log";
 else
 	$total_table = "bd_rx_log";
-echo "Receive:<br><img src=graph.php?ip=$subnet&interval=$interval&sensor_name=".$sensor_name."&table=$total_table><br>";
+echo "Receive:<br><img src=graph.php?ip=$subnet&interval=$interval&sensor_id=".$sensor_id."&table=$total_table><br>";
 echo "<img src=legend.gif><br>\n";
 
 
@@ -210,15 +199,15 @@ echo "<img src=legend.gif><br>\n";
 for($Counter=0; $Counter < pg_num_rows($result) && $Counter < $limit; $Counter++) 
 	{
 	$r = pg_fetch_array($result, $Counter);
-	echo "<a name=".$r['ip']."><h3><a href=details.php?sensor_name=$sensor_name&ip=".$r['ip'].">";
+	echo "<a name=".$r['ip']."><h3><a href=details.php?sensor_id=$sensor_id&ip=".$r['ip'].">";
 	if ($r['ip'] == "0.0.0.0")
 		echo "Total - Total of all subnets</h3>";
 	else
 		echo $r['ip']." - ".gethostbyaddr($r['ip'])."</h3>";
 	echo "</a>";
-	echo "Send:<br><img src=graph.php?ip=".$r['ip']."&interval=$interval&sensor_name=".$sensor_name."&table=bd_tx_log&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
+	echo "Send:<br><img src=graph.php?ip=".$r['ip']."&interval=$interval&sensor_id=".$sensor_id."&table=bd_tx_log&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
 	echo "<img src=legend.gif><br>\n";
-	echo "Receive:<br><img src=graph.php?ip=".$r['ip']."&interval=$interval&sensor_name=".$sensor_name."&table=bd_rx_log&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
+	echo "Receive:<br><img src=graph.php?ip=".$r['ip']."&interval=$interval&sensor_id=".$sensor_id."&table=bd_rx_log&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
 	echo "<img src=legend.gif><br>\n";
 	}
 

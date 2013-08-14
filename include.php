@@ -9,6 +9,33 @@ define("YOFFSET", 45);
 
 require("config.conf");
 
+/**
+ * trims all $_GET inputs
+ */
+function trim_get () {
+	//trim all inputs
+	foreach ($_GET as $key => $value) {
+		$_GET[$key] = trim($_GET[$key]);
+	}
+	
+}
+
+/**
+ * 
+ * @param string (IP) $given_ip
+ * @return string (sanitized IP)
+ */
+function sanitize_ip ($given_ip) {
+	if (preg_match("/(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))(\/[0-9]{1,2})?\b/", $given_ip,$ip))
+	{
+		return $ip;
+	}
+	else
+	{
+		return "0.0.0.0/0";
+	}
+}
+
 function ConnectDb()
     {
 	global $db_connect_string;

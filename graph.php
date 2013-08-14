@@ -79,44 +79,47 @@ function AverageAndAccumulate()
 $db = ConnectDb();
 
 // Get parameters
+trim_get ();
 
 if (isset($_GET['width']))
-    $width = $_GET['width'];
+    $width = filter_var($_GET['width'], FILTER_SANITIZE_NUMBER_INT); 
 else
 	$width = DFLT_WIDTH;
 
 if (isset($_GET['height']))
-    $height = $_GET['height'];
+    $height = filter_var($_GET['height'], FILTER_SANITIZE_NUMBER_INT);  
 else
 	$height = DFLT_HEIGHT;
 
 if (isset($_GET['interval']))
-    $interval = $_GET['interval'];
+    $interval = filter_var($_GET['interval'], FILTER_SANITIZE_NUMBER_INT); 
 else
 	$interval = DFLT_INTERVAL;
 
 if (isset($_GET['ip']))
-    $ip = $_GET['ip'];
+    $ip =  sanitize_ip ($_GET['ip']);
 else
 	exit(1);
 
-if (isset($_GET['sensor_name']))
-	$sensor_name = $_GET['sensor_name'];
+if (isset($_GET['sensor_id']))
+	$sensor_id = filter_var($_GET['sensor_id'], FILTER_SANITIZE_NUMBER_INT);  
 else
 	exit(1);
 
 if (isset($_GET['timestamp']))
-    $timestamp = $_GET['timestamp'];
+    $timestamp = filter_var($_GET['timestamp'], FILTER_SANITIZE_NUMBER_INT); 
 else
 	$timestamp = time() - $interval + (0.05*$interval);
 
-if (isset($_GET['table']))
+//make sure just real tables can be accessed
+if (isset($_GET['table']) 
+	&& ($_GET['table'] == "bd_tx_total_log" || $_GET['table'] == "bd_tx_log" || $_GET['table'] == "bd_rx_total_log" || $_GET['table'] == "bd_rx_log"))
     $table = $_GET['table'];
 else
 	$table = "bd_rx_log";
 
 if (isset($_GET['yscale']))
-    $yscale = $_GET['yscale'];
+    $yscale = filter_var($_GET['yscale'], FILTER_SANITIZE_NUMBER_INT); 
 
 $total = array();
 $icmp = array();
@@ -136,7 +139,7 @@ $a_ftp = array();
 $a_http = array();
 $a_p2p = array();
 
-$sql = "select *, extract(epoch from timestamp) as ts from sensors, $table where sensors.sensor_id = ".$table.".sensor_id and ip <<= '$ip' and sensor_name = '$sensor_name' and timestamp > $timestamp::abstime and timestamp < ".($timestamp+$interval)."::abstime order by ip;";
+$sql = "select *, extract(epoch from timestamp) as ts from sensors, $table where sensors.sensor_id = ".$table.".sensor_id and ip <<= '$ip' and sensors.sensor_id = '$sensor_id' and timestamp > $timestamp::abstime and timestamp < ".($timestamp+$interval)."::abstime order by ip;";
 //echo $sql."<br>"; exit(1);
 $result = pg_query($sql);
 
@@ -236,15 +239,28 @@ for($Counter=XOFFSET+1; $Counter < $width; $Counter++)
 	{
 	if (isset($total[$Counter]))
 		{
-		// Convert the bytes/sec to y coords
-        $total[$Counter] = ($total[$Counter]*($height-YOFFSET))/$YMax;
-		$tcp[$Counter] = ($tcp[$Counter]*($height-YOFFSET))/$YMax;
-        $ftp[$Counter] = ($ftp[$Counter]*($height-YOFFSET))/$YMax;
-		$http[$Counter] = ($http[$Counter]*($height-YOFFSET))/$YMax;
-		$p2p[$Counter] = ($p2p[$Counter]*($height-YOFFSET))/$YMax;
-        $udp[$Counter] = ($udp[$Counter]*($height-YOFFSET))/$YMax;
-		$icmp[$Counter] = ($icmp[$Counter]*($height-YOFFSET))/$YMax;
 
+		//otherwise we might run into Division by zero problems
+		if ($YMax != 0) {
+			
+			// Convert the bytes/sec to y coords
+	        $total[$Counter] = ($total[$Counter]*($height-YOFFSET))/$YMax;
+			$tcp[$Counter] = ($tcp[$Counter]*($height-YOFFSET))/$YMax;
+	        $ftp[$Counter] = ($ftp[$Counter]*($height-YOFFSET))/$YMax;
+			$http[$Counter] = ($http[$Counter]*($height-YOFFSET))/$YMax;
+			$p2p[$Counter] = ($p2p[$Counter]*($height-YOFFSET))/$YMax;
+	        $udp[$Counter] = ($udp[$Counter]*($height-YOFFSET))/$YMax;
+			$icmp[$Counter] = ($icmp[$Counter]*($height-YOFFSET))/$YMax;
+		} else {
+			$total[$Counter] = 0;
+			$tcp[$Counter] = 0;
+			$ftp[$Counter] = 0;
+			$http[$Counter] = 0;
+			$p2p[$Counter] = 0;
+			$udp[$Counter] = 0;
+			$icmp[$Counter] = 0;
+		}
+			
 		// Stack 'em up!
 		// Total is stacked from the bottom
 		// Icmp is on the bottom too

@@ -70,7 +70,7 @@ your database.  If not, check syslog for error messages.
 
 ### Web Server Setup:
 1. Copy the contents of this repository into your web tree some where.
-2. Edit config.conf to set your db connect string
+2. Edit config.php to set your db connect string
 
 You should now be able to access the web application and see you graphs.  All graphing 
 is done by graph.php,  all parameters are passed to it in it's url.  You can create 

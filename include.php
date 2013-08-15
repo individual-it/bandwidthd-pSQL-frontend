@@ -7,7 +7,9 @@ define("INT_YEARLY", 60*60*24*400);
 define("XOFFSET", 90);
 define("YOFFSET", 45);
 
-require("config.conf");
+$config_conf_key = 1;
+
+require("config.php");
 
 /**
  * trims all $_GET inputs
@@ -75,6 +77,8 @@ function fmtb($kbytes)
 
 	return(sprintf("<td align=right><tt>%.1f%s</td>", $Output, $Suffix));
 	}
+
+//TODO check for needed functions and extensions. e.g. 	imagecreate / PHP5_GD
 
 $starttime = time();
 set_time_limit(300);

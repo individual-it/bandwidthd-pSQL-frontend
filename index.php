@@ -27,8 +27,9 @@ if (isset($_GET['subnet']) && $_GET['subnet'] != "none")
 	$subnet = sanitize_ip ($_GET['subnet']);
 }
 
-
-if (isset($_GET['limit']) && $_GET['limit'] != "none")
+if (isset($_GET['limit']) && $_GET['limit'] == "all")
+	$limit = "all";
+elseif (isset($_GET['limit']) && $_GET['limit'] != "none")
 	$limit = filter_var($_GET['limit'], FILTER_SANITIZE_NUMBER_INT);
 else
 	$limit = 20;

@@ -10,6 +10,8 @@ The main aim of this partly fork is to make the PHP files more robust against SQ
 I'm starting this fork because the author of the original [bandwidthd does no development on it anymore](http://sourceforge.net/p/bandwidthd/discussion/308608/thread/cef76694/#7b3f) 
 but I'm very happy to merge it back if someone has access to the sourceforge project page.
 
+See [CHANGELOG](https://github.com/individual-it/bandwidthd-pSQL-frontend/blob/master/CHANGELOG.md#changelog) for full details about the changes.
+
 DATABASE SUPPORT of bandwidthd
 ------------------------------
 

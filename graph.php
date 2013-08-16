@@ -289,19 +289,28 @@ for($Counter=XOFFSET+1; $Counter < $width; $Counter++)
 	}                                                                                                                             
 
 // Margin Text
-if ($SentPeak < 1024/8)
-	$txtPeakSendRate = sprintf("Peak Send Rate: %.1f KBits/sec", $SentPeak*8);
-else if ($SentPeak < (1024*1024)/8)
-    $txtPeakSendRate = sprintf("Peak Send Rate: %.1f MBits/sec", ($SentPeak*8.0)/1024.0);
+if ($table == "bd_tx_total_log" || $table == "bd_tx_log")
+	$tx_rx_text = "Send";
 else 
-	$txtPeakSendRate = sprintf("Peak Send Rate: %.1f GBits/sec", ($SentPeak*8.0)/(1024.0*1024.0));
+	$tx_rx_text = "Transfered";
+
+	//|| $_GET['table'] == "bd_rx_total_log" || $_GET['table'] == "bd_rx_log"))
+	
+	
+	
+if ($SentPeak < 1024/8)
+	$txtPeakSendRate = sprintf("Peak %s Rate: %.1f KBits/sec", $tx_rx_text, $SentPeak*8);
+else if ($SentPeak < (1024*1024)/8)
+    $txtPeakSendRate = sprintf("Peak %s Rate: %.1f MBits/sec", $tx_rx_text, ($SentPeak*8.0)/1024.0);
+else 
+	$txtPeakSendRate = sprintf("Peak %s Rate: %.1f GBits/sec", $tx_rx_text, ($SentPeak*8.0)/(1024.0*1024.0));
                                                                                                                              
 if ($TotalSent < 1024)
-	$txtTotalSent = sprintf("Sent %.1f KBytes", $TotalSent);
+	$txtTotalSent = sprintf("%s %.1f KBytes", $tx_rx_text, $TotalSent);
 else if ($TotalSent < 1024*1024)
-	$txtTotalSent = sprintf("Sent %.1f MBytes", $TotalSent/1024.0);
+	$txtTotalSent = sprintf("%s %.1f MBytes", $tx_rx_text, $TotalSent/1024.0);
 else 
-	$txtTotalSent = sprintf("Sent %.1f GBytes", $TotalSent/(1024.0*1024.0));
+	$txtTotalSent = sprintf("%s %.1f GBytes", $tx_rx_text, $TotalSent/(1024.0*1024.0));
                                                                                                                              
 ImageString($im, 2, XOFFSET+5,  $height-20, $txtTotalSent, $black);
 ImageString($im, 2, $width/2+XOFFSET/2,  $height-20, $txtPeakSendRate, $black);

@@ -1,5 +1,12 @@
 <?include("include.php");?>
 <html>
+<head>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.tinysort.min.js"></script>
+	<script src="js/bandwidthd.js"></script>
+	<link rel="stylesheet" type="text/css" href="bandwidthd.css"/>
+</head>
+
 <center>
 <img src=logo.gif>
 <?
@@ -139,13 +146,27 @@ pg_query("set sort_mem to default;");
 if ($limit == "all")
 	$limit = pg_num_rows($result);
 
-echo "<table width=100% border=1 cellspacing=0><tr><td>Ip<td>Name<td>Total<td>Sent<td>Received<td>tcp<td>udp<td>icmp<td>http<td>p2p<td>ftp";
+//TODO make the table sortable
+echo "<table id=xtable width=100% border=1 cellspacing=0>
+		<tr><th title='click for sorting' onclick='sortTable(0);'>IP</th>
+			<th title='click for sorting' onclick='sortTable(1);'>Name</th>
+			<th title='click for sorting' onclick='sortTable(2);'>Total</th>
+			<th title='click for sorting' onclick='sortTable(3);'>Sent</th>
+			<th title='click for sorting' onclick='sortTable(4);'>Received</th>
+			<th title='click for sorting' onclick='sortTable(5);'>tcp</th>
+			<th title='click for sorting' onclick='sortTable(6);'>udp</th>
+			<th title='click for sorting' onclick='sortTable(7);'>icmp</th>
+			<th title='click for sorting' onclick='sortTable(8);'>http</th>
+			<th title='click for sorting' onclick='sortTable(9);'>p2p</th>
+			<th title='click for sorting' onclick='sortTable(10);'>ftp</th>";
+
 
 if (!isset($subnet)) // Set this now for total graphs
 	$subnet = "0.0.0.0/0";
 
 // Output Total Line
-echo "<TR><TD><a href=Total>Total</a><TD>$subnet";
+//TODO commit href=#Total 
+echo "<TBODY><TR><TD><a href=Total>Total</a><TD>$subnet";
 foreach (array("total", "sent", "received", "tcp", "udp", "icmp", "http", "p2p", "ftp") as $key)
 	{
 	for($Counter=0, $Total = 0; $Counter < pg_num_rows($result); $Counter++)
@@ -161,14 +182,15 @@ echo "\n";
 for($Counter=0; $Counter < pg_num_rows($result) && $Counter < $limit; $Counter++)
 	{
 	$r = pg_fetch_array($result, $Counter);
-	echo "<tr><td><a href=#".$r['ip'].">";
-	echo $r['ip']."<td>".gethostbyaddr($r['ip']);
+	$hostname=gethostbyaddr($r['ip']);
+	echo "<tr><td sorting='".str_replace('.','_',$r['ip'])."'><a href=#".$r['ip'].">";
+	echo $r['ip']."<td sorting='".$hostname."'>".$hostname;
 	echo "</a>";
 	echo fmtb($r['total']).fmtb($r['sent']).fmtb($r['received']).
 		fmtb($r['tcp']).fmtb($r['udp']).fmtb($r['icmp']).fmtb($r['http']).
 		fmtb($r['p2p']).fmtb($r['ftp'])."\n";
 	}
-echo "</table></center>";
+echo "</TBODY></table></center>";
 
 // Output Total Graph
 $scale = 0;

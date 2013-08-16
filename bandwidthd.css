@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+table#xtable th {
+	color: blue;
+	cursor: pointer;
+}

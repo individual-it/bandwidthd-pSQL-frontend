@@ -74,8 +74,9 @@ function fmtb($kbytes)
 		$Output /= 1024;
 		$Suffix = 'T';
 		}
-
-	return(sprintf("<td align=right><tt>%.1f%s</td>", $Output, $Suffix));
+		//return(sprintf("<td sort='%d' align=right><tt>%d</td>",$kbytes, $kbytes));
+		
+	return(sprintf("<td sorting='%d' align=right><tt>%.1f%s</td>",$kbytes, $Output, $Suffix));
 	}
 
 //TODO check for needed functions and extensions. e.g. 	imagecreate / PHP5_GD

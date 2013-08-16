@@ -146,7 +146,6 @@ pg_query("set sort_mem to default;");
 if ($limit == "all")
 	$limit = pg_num_rows($result);
 
-//TODO make the table sortable
 echo "<table id=xtable width=100% border=1 cellspacing=0>
 		<tr><th title='click for sorting' onclick='sortTable(0);'>IP</th>
 			<th title='click for sorting' onclick='sortTable(1);'>Name</th>
@@ -165,8 +164,7 @@ if (!isset($subnet)) // Set this now for total graphs
 	$subnet = "0.0.0.0/0";
 
 // Output Total Line
-//TODO commit href=#Total 
-echo "<TBODY><TR><TD><a href=Total>Total</a><TD>$subnet";
+echo "<TBODY><TR><TD><a href=#Total>Total</a><TD>$subnet";
 foreach (array("total", "sent", "received", "tcp", "udp", "icmp", "http", "p2p", "ftp") as $key)
 	{
 	for($Counter=0, $Total = 0; $Counter < pg_num_rows($result); $Counter++)

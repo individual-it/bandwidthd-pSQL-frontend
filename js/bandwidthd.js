@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$.tinysort.defaults.attr='sorting';						
+	$.tinysort.defaults.attr='class';						
 });
 
 var aAsc = [];

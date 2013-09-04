@@ -1,0 +1,13 @@
+body { background-color: #d8dde8 !important; }
+
+#logo { display:block; margin:auto; margin-bottom:10px;}
+
+.content {
+	background: #fff;
+	padding: 20px 10px;
+	line-height: 120%;
+	-webkit-box-shadow: 0 5px 9px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 5px 9px rgba(0,0,0,0.1);
+	box-shadow: 0 5px 9px rgba(0,0,0,0.1);
+}
+.panel-body img { display:block; margin:auto;}

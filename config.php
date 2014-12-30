@@ -8,7 +8,7 @@ if ($config_conf_key == 1) {
 	$db_connect_string = "user = bandwidthd password = band dbname = bandwidthd host = localhost";
 }
 else {
-	die();
+	die("Error");
 }
 
 ?>

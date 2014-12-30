@@ -14,7 +14,8 @@ require("config.php");
 /**
  * trims all $_GET inputs
  */
-function trim_get () {
+function trim_get () 
+{
 	//trim all inputs
 	foreach ($_GET as $key => $value) {
 		$_GET[$key] = trim($_GET[$key]);
@@ -27,7 +28,8 @@ function trim_get () {
  * @param string (IP) $given_ip
  * @return string (sanitized IP)
  */
-function sanitize_ip ($given_ip) {
+function sanitize_ip ($given_ip) 
+{
 	if (preg_match("/(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))\.(1?[1-9]?[0-9]|2?(?:[0-4]?[0-9]|5[0-5]))(\/[0-9]{1,2})?\b/", $given_ip,$ip))
 	{
 		return $ip[0];
@@ -39,45 +41,45 @@ function sanitize_ip ($given_ip) {
 }
 
 function ConnectDb()
-    {
+{
 	global $db_connect_string;
 
     $db = pg_pconnect($db_connect_string);
     if (!$db)
-        {
+    {
         printf("DB Error, could not connect to database");
         exit(1);
-        }
+     }
     return($db);
-    }
+}
                                                                                                                              
 function fmtb($kbytes)
-	{
+{
 	$Max = 1024;
 	$Output = $kbytes;
 	$Suffix = 'K';
 
 	if ($Output > $Max)
-		{
+	{
 		$Output /= 1024;
 		$Suffix = 'M';
-		}
+	}
 
 	if ($Output > $Max)
-		{
+	{
 		$Output /= 1024;
 		$Suffix = 'G';
-		}
+	}
 
 	if ($Output > $Max)
-		{
+	{
 		$Output /= 1024;
 		$Suffix = 'T';
-		}
+	}
 		//return(sprintf("<td sort='%d' align=right><tt>%d</td>",$kbytes, $kbytes));
 		
-	return(sprintf("<td sorting='%d' align=right><tt>%.1f%s</td>",$kbytes, $Output, $Suffix));
-	}
+	return(sprintf("<td class='%d' style='text-align:right;'>%.1f%s</td>",$kbytes, $Output, $Suffix));
+}
 
 //TODO check for needed functions and extensions. e.g. 	imagecreate / PHP5_GD
 

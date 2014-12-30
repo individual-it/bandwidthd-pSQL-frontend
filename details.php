@@ -1,44 +1,55 @@
 <?include("include.php");?>
+<!DOCTYPE HTML>
 <html>
-<center>
-<img src=logo.gif>
-<?
-trim_get ();
+<head>
+	<title>BandWidthd</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.tinysort.min.js"></script>
+	<script type="text/javascript" src="js/bandwidthd.js"></script>
+	<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+	<link media="screen" rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container content">
+<img alt="logo" src="logo.gif">
+<? trim_get ();
 
-if (isset($_GET['sensor_id']))
+if (isset($_GET['sensor_id'])) {
 	$sensor_id = filter_var($_GET['sensor_id'], FILTER_SANITIZE_NUMBER_INT);
+}
 else
-    {
-    echo "<br>Please provide a sensor_id";
+{
+	echo "<br>Please provide a sensor_id";
     exit(1);
-    }
+}
 
-if (isset($_GET['ip']))
+if (isset($_GET['ip'])) {
 	$ip =  sanitize_ip ($_GET['ip']);
+}
 else
-    {
+{
     echo "<br>Please provide an ip address";
     exit(1);
-    }
+}
                                                                                                                              
 echo "<h3>";
-if (strpos($ip, "/") === FALSE)
-	echo "$ip - ".gethostbyaddr($ip)."</h3>";
-else
-	echo "Total - $ip</h3>";
+if (strpos($ip, "/") === FALSE) echo "$ip - ".gethostbyaddr($ip)."</h3>";
+else echo "Total - $ip</h3>";
 
 $db = ConnectDb();
 
 if ($ip == "0.0.0.0/0")
-	{
+{
     $rxtable = "bd_rx_total_log";
 	$txtable = "bd_tx_total_log";
-	}
+}
 else
-	{
+{
     $rxtable = "bd_rx_log";
 	$txtable = "bd_tx_log";
-	}
+}
 
 $sql = "select rx.scale as rxscale, tx.scale as txscale, tx.total+rx.total as total, tx.total as sent,
 rx.total as received, tx.tcp+rx.tcp as tcp, tx.udp+rx.udp as udp,
@@ -65,38 +76,85 @@ group by ip) as rx
 where tx.ip = rx.ip;";
 //echo "</center><pre>$sql</pre><center>";exit(0);
 $result = pg_query($sql);
-echo "<table width=100% border=1 cellspacing=0><tr><td>Ip<td>Name<td>Total<td>Sent<td>Received<td>tcp<td>udp<td>icmp<td>http<td>p2p<td>ftp";
+echo "<div class='table-responsive'><table class='table table-hover table-bordered' id='xtable' style='font-size:13px;'>
+		<thead>
+			<tr>
+				<th title='click for sorting' onclick='sortTable(0);'>IP</th>
+				<th title='click for sorting' onclick='sortTable(1);'>Name</th>
+				<th title='click for sorting' onclick='sortTable(2);'>Total</th>
+				<th title='click for sorting' onclick='sortTable(3);'>Sent</th>
+				<th title='click for sorting' onclick='sortTable(4);'>Received</th>
+				<th title='click for sorting' onclick='sortTable(5);'>tcp</th>
+				<th title='click for sorting' onclick='sortTable(6);'>udp</th>
+				<th title='click for sorting' onclick='sortTable(7);'>icmp</th>
+				<th title='click for sorting' onclick='sortTable(8);'>http</th>
+				<th title='click for sorting' onclick='sortTable(9);'>p2p</th>
+				<th title='click for sorting' onclick='sortTable(10);'>ftp</th>
+			</tr>
+		</thead><tbody><tr><td>";
 $r = pg_fetch_array($result);
-echo "<tr><td>";
-if (strpos($ip, "/") === FALSE)
-	echo "$ip<td>".gethostbyaddr($ip);
-else
-	echo "Total<td>$ip";
+
+if (strpos($ip, "/") === FALSE) echo "$ip</td><td>".gethostbyaddr($ip) . '</td>';
+else echo "Total<td>$ip</td>";
+
 echo fmtb($r['total']).fmtb($r['sent']).fmtb($r['received']).
 	fmtb($r['tcp']).fmtb($r['udp']).fmtb($r['icmp']).fmtb($r['http']).
     fmtb($r['p2p']).fmtb($r['ftp']);
-echo "</table></center>";
+echo "</tbody></table>";
 
-echo "<center><h4>Daily</h4></center>";
-echo "Send:<br><img src=graph.php?ip=$ip&sensor_id=".$sensor_id."&table=$txtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
-echo "Receive:<br><img src=graph.php?ip=$ip&sensor_id=".$sensor_id."&table=$rxtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
 
-echo "<center><h4>Weekly</h4></center>";
-echo "Send:<br><img src=graph.php?interval=".INT_WEEKLY."&ip=$ip&sensor_id=$sensor_id&table=$txtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
-echo "Receive:<br><img src=graph.php?interval=".INT_WEEKLY."&ip=$ip&sensor_id=$sensor_id&table=$rxtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
+	echo "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Daily</h3></div>
+	    <div class='panel-body'>
+	    	<div class='well'>
+		    	Send:<br><img alt='graph' src='graph.php?ip=$ip&amp;sensor_id=".$sensor_id."&amp;table=$txtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'><br>
+				<img alt='' src=legend.gif><br>
+			</div>
+			<div class='well'>
+				Receive:<br><img alt='graph' src='graph.php?ip=$ip&amp;sensor_id=".$sensor_id."&amp;table=$rxtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'>
+				<img alt='' src=legend.gif><br>
+			</div>
+		</div>
+	</div>";
 
-echo "<center><h4>Monthly</h4></center>";
-echo "Send:<br><img src=graph.php?interval=".INT_MONTHLY."&ip=$ip&sensor_id=$sensor_id&table=$txtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
-echo "Receive:<br><img src=graph.php?interval=".INT_MONTHLY."&ip=$ip&sensor_id=$sensor_id&table=$rxtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
+	echo "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Weekly</h3></div>
+	    <div class='panel-body'>
+	    	<div class='well'>
+		    	Send:<br><img alt='graph' src='graph.php?interval=".INT_WEEKLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$txtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'><br>
+				<img alt='' src=legend.gif><br>
+			</div>
+			<div class='well'>
+				Receive:<br><img alt='graph' src='graph.php?interval=".INT_WEEKLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$rxtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'>
+				<img alt='' src=legend.gif><br>
+			</div>
+		</div>
+	</div>";
 
-echo "<center><h4>Yearly</h4></center>";
-echo "Send:<br><img src=graph.php?interval=".INT_YEARLY."&ip=$ip&sensor_id=$sensor_id&table=$txtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
-echo "Receive:<br><img src=graph.php?interval=".INT_YEARLY."&ip=$ip&sensor_id=$sensor_id&table=$rxtable&yscale=".(max($r['txscale'], $r['rxscale']))."><br>";
-echo "<img src=legend.gif><br>";
+	echo "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Monthly</h3></div>
+	    <div class='panel-body'>
+	    	<div class='well'>
+		    	Send:<br><img alt='graph' src='graph.php?interval=".INT_MONTHLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$txtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'><br>
+				<img alt='' src=legend.gif><br>
+			</div>
+			<div class='well'>
+				Receive:<br><img alt='graph' src='graph.php?interval=".INT_MONTHLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$rxtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'>
+				<img alt='' src=legend.gif><br>
+			</div>
+		</div>
+	</div>";
+
+	echo "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Yearly</h3></div>
+	    <div class='panel-body'>
+	    	<div class='well'>
+		    	Send:<br><img alt='graph' src='graph.php?interval=".INT_YEARLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$txtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'><br>
+				<img alt='' src=legend.gif><br>
+			</div>
+			<div class='well'>
+				Receive:<br><img alt='graph' src='graph.php?interval=".INT_YEARLY."&amp;ip=$ip&amp;sensor_id=$sensor_id&amp;table=$rxtable&amp;yscale=".(max($r['txscale'], $r['rxscale']))."'>
+				<img alt='' src=legend.gif><br>
+			</div>
+		</div>
+	</div>
+
+</div>";
+
+include('footer.php');

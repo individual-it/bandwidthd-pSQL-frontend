@@ -72,7 +72,7 @@ $db = ConnectDb();
 			<option value=<?php echo INT_HOURLY?> <?php echo isset($interval) && $interval==INT_HOURLY?"SELECTED":""?>>Hourly
 			<option value=<?php echo INT_DAILY?> <?php echo isset($interval) && $interval==INT_DAILY?"SELECTED":""?>>Daily
 			<option value=<?php echo INT_WEEKLY?> <?php echo isset($interval) && $interval==INT_WEEKLY?"SELECTED":""?>>Weekly
-			<option value=<?php echo INT_MONTHLY?> <?php echo isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly
+			<option selected="selected" value=<?php echo INT_MONTHLY?> <?php echo isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly
 			<option value=<?php echo INT_YEARLY?> <?php echo isset($interval) && $interval==INT_YEARLY?"SELECTED":""?>>Yearly
 		</select>
 	</div>

@@ -295,8 +295,10 @@ else
 	$tx_rx_text = "Transfered";
 
 	//|| $_GET['table'] == "bd_rx_total_log" || $_GET['table'] == "bd_rx_log"))
-	
-	
+
+$txtHosterName = sprintf("(c) Cubyte CuTraf");
+
+$txtIpHost = sprintf("IP:", $ip);
 	
 if ($SentPeak < 1024/8)
 	$txtPeakSendRate = sprintf("Peak %s Rate: %.1f KBits/sec", $tx_rx_text, $SentPeak*8);
@@ -305,8 +307,6 @@ else if ($SentPeak < (1024*1024)/8)
 else 
 	$txtPeakSendRate = sprintf("Peak %s Rate: %.1f GBits/sec", $tx_rx_text, ($SentPeak*8.0)/(1024.0*1024.0));
 
-$txtPeakSendRate = sprintf("CUBYTE");
-                                                                                                                             
 if ($TotalSent < 1024)
 	$txtTotalSent = sprintf("%s %.1f KBytes", $tx_rx_text, $TotalSent);
 else if ($TotalSent < 1024*1024)
@@ -315,7 +315,9 @@ else
 	$txtTotalSent = sprintf("%s %.1f GBytes", $tx_rx_text, $TotalSent/(1024.0*1024.0));
                                                                                                                              
 ImageString($im, 2, XOFFSET+5,  $height-20, $txtTotalSent, $black);
-ImageString($im, 2, $width/2+XOFFSET/2,  $height-20, $txtPeakSendRate, $black);
+ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtPeakSendRate, $black);
+ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtIpHost, $black);
+ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtHosterName, $black);
 
 // Draw X Axis
 

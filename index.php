@@ -67,6 +67,9 @@ $db = ConnectDb();
 	<div class="form-group">
 		<select class="form-control" name="interval">
 			<option value="none">--Select An Interval--
+			<option value=<?php echo INT_1M?> <?php echo isset($interval) && $interval==INT_1M?"SELECTED":""?>>Daily
+			<option value=<?php echo INT_10M?> <?php echo isset($interval) && $interval==INT_10M?"SELECTED":""?>>Daily
+			<option value=<?php echo INT_HOURLY?> <?php echo isset($interval) && $interval==INT_HOURLY?"SELECTED":""?>>Daily
 			<option value=<?php echo INT_DAILY?> <?php echo isset($interval) && $interval==INT_DAILY?"SELECTED":""?>>Daily
 			<option value=<?php echo INT_WEEKLY?> <?php echo isset($interval) && $interval==INT_WEEKLY?"SELECTED":""?>>Weekly
 			<option value=<?php echo INT_MONTHLY?> <?php echo isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly

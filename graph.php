@@ -1,4 +1,4 @@
-<?
+<?php
 require("include.php");
 
 // Returns x location of any given timestamp
@@ -533,3 +533,4 @@ while ($YTic <= ($YMax - $YMax/10))
 
 imagepng($im); 
 imagedestroy($im);
+?>

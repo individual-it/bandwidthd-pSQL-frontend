@@ -1,4 +1,4 @@
-<?
+<?php
 define("INT_DAILY", 60*60*24*2);
 define("INT_WEEKLY", 60*60*24*8);
 define("INT_MONTHLY", 60*60*24*35);

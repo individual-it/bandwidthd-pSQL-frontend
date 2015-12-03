@@ -1,4 +1,4 @@
-<?include("include.php");?>
+<?php include("include.php");?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,7 +14,7 @@
 <body>
 	<div class="container content">
 		<img id="logo" alt="logo" src="logo.gif">
-<?
+<?php
 trim_get();
 
 // Get variables from url and set defaults
@@ -55,7 +55,7 @@ $db = ConnectDb();
 	<div class="form-group">
 		<select class="form-control" name="sensor_id">
 			<option value="none">--Select A Sensor--
-			<?  $sql = "SELECT sensor_id,sensor_name from sensors order by sensor_name;";
+			<?php  $sql = "SELECT sensor_id,sensor_name from sensors order by sensor_name;";
 				$result = pg_query($sql);
 				while ($r = pg_fetch_array($result))
 				{
@@ -67,30 +67,30 @@ $db = ConnectDb();
 	<div class="form-group">
 		<select class="form-control" name="interval">
 			<option value="none">--Select An Interval--
-			<option value=<?=INT_DAILY?> <?=isset($interval) && $interval==INT_DAILY?"SELECTED":""?>>Daily
-			<option value=<?=INT_WEEKLY?> <?=isset($interval) && $interval==INT_WEEKLY?"SELECTED":""?>>Weekly
-			<option value=<?=INT_MONTHLY?> <?=isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly
-			<option value=<?=INT_YEARLY?> <?=isset($interval) && $interval==INT_YEARLY?"SELECTED":""?>>Yearly
-			<option value=<?=24*60*60?> <?=isset($interval) && $interval==24*60*60?"SELECTED":""?>>24hrs
-			<option value=<?=30*24*60*60?> <?=isset($interval) && $interval==30*24*60*60?"SELECTED":""?>>30days
+			<option value=<?php echo INT_DAILY?> <?php echo isset($interval) && $interval==INT_DAILY?"SELECTED":""?>>Daily
+			<option value=<?php echoINT_WEEKLY?> <?php echo isset($interval) && $interval==INT_WEEKLY?"SELECTED":""?>>Weekly
+			<option value=<?php echo=INT_MONTHLY?> <?php echo isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly
+			<option value=<?php echo=INT_YEARLY?> <?php echo isset($interval) && $interval==INT_YEARLY?"SELECTED":""?>>Yearly
+			<option value=<?php echo=24*60*60?> <?php echo isset($interval) && $interval==24*60*60?"SELECTED":""?>>24hrs
+			<option value=<?php echo=30*24*60*60?> <?php echo isset($interval) && $interval==30*24*60*60?"SELECTED":""?>>30days
 		</select>
 	</div>
 	<div class="form-group">
 		<select class="form-control" name="limit">
 			<option value="none">--How Many Results--
-			<option value="20" <?=isset($limit) && $limit==20?"SELECTED":""?>>20
-			<option value="50" <?=isset($limit) && $limit==50?"SELECTED":""?>>50
-			<option value="100" <?=isset($limit) && $limit==100?"SELECTED":""?>>100
-			<option value="all" <?=isset($limit) && $limit=="all"?"SELECTED":""?>>All
+			<option value="20" <?php echo isset($limit) && $limit==20?"SELECTED":""?>>20
+			<option value="50" <?php echo isset($limit) && $limit==50?"SELECTED":""?>>50
+			<option value="100" <?php echo isset($limit) && $limit==100?"SELECTED":""?>>100
+			<option value="all" <?php echo isset($limit) && $limit=="all"?"SELECTED":""?>>All
 		</select>
 	</div>
 	<div class="form-group">
-    	<input id="subnet" class="form-control" name="subnet" value="<?=isset($subnet)?$subnet:"0.0.0.0/0"?>">
+    	<input id="subnet" class="form-control" name="subnet" value="<?php echo isset($subnet)?$subnet:"0.0.0.0/0"?>">
  	</div>
  	<input class="btn btn-success" type="submit" value="Go">
 </form>
 
-<? if (!isset($sensor_id)) exit(0);
+<?php if (!isset($sensor_id)) exit(0);
 
 $sql = "SELECT sensor_name from sensors WHERE sensor_id = $sensor_id ;";
 $result = pg_query($sql);
@@ -254,3 +254,4 @@ for($Counter=0; $Counter < pg_num_rows($result) && $Counter < $limit; $Counter++
 	<img alt='legend' src='legend.gif'/><br></div></div></div>";
 }
 include('footer.php');
+?>

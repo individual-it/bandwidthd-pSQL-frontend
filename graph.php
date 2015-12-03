@@ -315,8 +315,8 @@ else
 	$txtTotalSent = sprintf("%s %.1f GBytes", $tx_rx_text, $TotalSent/(1024.0*1024.0));
                                                                                                                              
 ImageString($im, 3, XOFFSET+5,  $height-20, $txtTotalSent, $black);
-ImageString($im, 2, $width/4+XOFFSET/3,  $height-20, $txtPeakSendRate, $black);
-ImageString($im, 2, $width/1.8+XOFFSET/8,  $height-20, $txtIpHost, $black);
+ImageString($im, 2, $width/3+XOFFSET/3,  $height-20, $txtPeakSendRate, $black);
+ImageString($im, 2, $width/1.5+XOFFSET/4,  $height-20, $txtIpHost, $black);
 ImageString($im, 2, $width/1.2+XOFFSET/4,  $height-20, $txtHosterName, $black);
 
 // Draw X Axis

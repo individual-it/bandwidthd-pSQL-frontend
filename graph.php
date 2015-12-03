@@ -304,6 +304,8 @@ else if ($SentPeak < (1024*1024)/8)
     $txtPeakSendRate = sprintf("Peak %s Rate: %.1f MBits/sec", $tx_rx_text, ($SentPeak*8.0)/1024.0);
 else 
 	$txtPeakSendRate = sprintf("Peak %s Rate: %.1f GBits/sec", $tx_rx_text, ($SentPeak*8.0)/(1024.0*1024.0));
+
+$txtPeakSendRate = sprintf("CUBYTE");
                                                                                                                              
 if ($TotalSent < 1024)
 	$txtTotalSent = sprintf("%s %.1f KBytes", $tx_rx_text, $TotalSent);

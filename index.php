@@ -218,7 +218,7 @@ else {
 	$total_table2 = "bd_rx_log";
 }
 echo "<div class='panel panel-default'>
-   <div class='panel-heading'>
+   <div id='Total' class='panel-heading'>
         <h3 class='panel-title'><a href='details.php?sensor_id=$sensor_id&amp;ip=$subnet'>Total - Total of $subnet</a></h3>
     </div>
     <div class='panel-body'>

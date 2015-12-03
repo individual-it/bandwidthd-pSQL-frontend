@@ -314,8 +314,8 @@ else if ($TotalSent < 1024*1024)
 else 
 	$txtTotalSent = sprintf("%s %.1f GBytes", $tx_rx_text, $TotalSent/(1024.0*1024.0));
                                                                                                                              
-ImageString($im, 2, XOFFSET+5,  $height-20, $txtTotalSent, $black);
-ImageString($im, 3, $width/4+XOFFSET/4,  $height-20, $txtPeakSendRate, $black);
+ImageString($im, 3, XOFFSET+5,  $height-20, $txtTotalSent, $black);
+ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtPeakSendRate, $black);
 ImageString($im, 2, $width/2+XOFFSET/4,  $height-20, $txtIpHost, $black);
 ImageString($im, 2, $width+XOFFSET/4,  $height-20, $txtHosterName, $black);
 

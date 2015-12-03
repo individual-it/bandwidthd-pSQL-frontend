@@ -240,7 +240,7 @@ for($Counter=0; $Counter < pg_num_rows($result) && $Counter < $limit; $Counter++
 	$r = pg_fetch_array($result, $Counter);
 	echo "<div class='panel panel-default'>
    			<div class='panel-heading'>
-   			<h3 class='panel-title'><a href='details.php?sensor_id=$sensor_id&amp;ip=".$r['ip']."'>";
+   			<h3 id='".$r['ip']."' class='panel-title'><a href='details.php?sensor_id=$sensor_id&amp;ip=".$r['ip']."'>";
 			if ($r['ip'] == "0.0.0.0") {
 				echo "Total - Total of all subnets";
 			}

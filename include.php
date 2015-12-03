@@ -1,5 +1,5 @@
 <?php
-define("INT_1M", 60);
+define("INT_5M", 60*5);
 define("INT_10M", 60*10);
 define("INT_HOURLY", 60*60);
 define("INT_DAILY", 60*60*24*2);

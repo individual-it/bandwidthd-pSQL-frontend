@@ -67,15 +67,13 @@ $db = ConnectDb();
 	<div class="form-group">
 		<select class="form-control" name="interval">
 			<option value="none">--Select An Interval--
-			<option value=<?php echo INT_1M?> <?php echo isset($interval) && $interval==INT_1M?"SELECTED":""?>>Daily
-			<option value=<?php echo INT_10M?> <?php echo isset($interval) && $interval==INT_10M?"SELECTED":""?>>Daily
-			<option value=<?php echo INT_HOURLY?> <?php echo isset($interval) && $interval==INT_HOURLY?"SELECTED":""?>>Daily
+			<option value=<?php echo INT_5M?> <?php echo isset($interval) && $interval==INT_5M?"SELECTED":""?>>5 Min
+			<option value=<?php echo INT_10M?> <?php echo isset($interval) && $interval==INT_10M?"SELECTED":""?>>10 Min
+			<option value=<?php echo INT_HOURLY?> <?php echo isset($interval) && $interval==INT_HOURLY?"SELECTED":""?>>Hourly
 			<option value=<?php echo INT_DAILY?> <?php echo isset($interval) && $interval==INT_DAILY?"SELECTED":""?>>Daily
 			<option value=<?php echo INT_WEEKLY?> <?php echo isset($interval) && $interval==INT_WEEKLY?"SELECTED":""?>>Weekly
 			<option value=<?php echo INT_MONTHLY?> <?php echo isset($interval) && $interval==INT_MONTHLY?"SELECTED":""?>>Monthly
 			<option value=<?php echo INT_YEARLY?> <?php echo isset($interval) && $interval==INT_YEARLY?"SELECTED":""?>>Yearly
-			<option value=<?php echo 24*60*60?> <?php echo isset($interval) && $interval==24*60*60?"SELECTED":""?>>24hrs
-			<option value=<?php echo 30*24*60*60?> <?php echo isset($interval) && $interval==30*24*60*60?"SELECTED":""?>>30days
 		</select>
 	</div>
 	<div class="form-group">

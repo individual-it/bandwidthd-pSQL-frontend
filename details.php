@@ -1,4 +1,4 @@
-<?include("include.php");?>
+<?php include("include.php");?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,7 +14,7 @@
 <body>
 	<div class="container content">
 <img alt="logo" src="logo.gif">
-<? trim_get ();
+<?php trim_get ();
 
 if (isset($_GET['sensor_id'])) {
 	$sensor_id = filter_var($_GET['sensor_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -158,3 +158,4 @@ echo "</tbody></table>";
 </div>";
 
 include('footer.php');
+?>

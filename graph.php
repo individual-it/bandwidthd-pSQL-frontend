@@ -316,8 +316,8 @@ else
                                                                                                                              
 ImageString($im, 2, XOFFSET+5,  $height-20, $txtTotalSent, $black);
 ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtPeakSendRate, $black);
-ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtIpHost, $black);
-ImageString($im, 2, $width/4+XOFFSET/4,  $height-20, $txtHosterName, $black);
+ImageString($im, 2, $width/3+XOFFSET/4,  $height-20, $txtIpHost, $black);
+ImageString($im, 2, $width/2+XOFFSET/4,  $height-20, $txtHosterName, $black);
 
 // Draw X Axis
 

@@ -5,7 +5,7 @@
 	<title>BandWidthd</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.tinysort.min.js"></script>
 	<script type="text/javascript" src="js/bandwidthd.js"></script>
 	<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
@@ -240,7 +240,7 @@ for($Counter=0; $Counter < pg_num_rows($result) && $Counter < $limit; $Counter++
 	$r = pg_fetch_array($result, $Counter);
 	echo "<div class='panel panel-default'>
    			<div class='panel-heading'>
-   			<h3 class='panel-title'><a href='details.php?sensor_id=$sensor_id&amp;ip=".$r['ip']."'>";
+            <h3 id='".$r['ip']."' class='panel-title'><a href='details.php?sensor_id=$sensor_id&amp;ip=".$r['ip']."'>";
 			if ($r['ip'] == "0.0.0.0") {
 				echo "Total - Total of all subnets";
 			}
